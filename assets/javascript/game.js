@@ -46,36 +46,82 @@ $(document).ready(function() {
     var lukeC = document.getElementById("lukeC");
     var jarC = document.getElementById("jarC");
     var vaderC = document.getElementById("vaderC");
-    var myDmg = document.getElementById("myDmg");
-    var oppDmg = document.getElementById("oppDmg");
+    
+    function clearOpp(){
+        yodaD.style.display= "none";
+        jarD.style.display='none';
+        vaderD.style.display='none';
+        lukeD.style.display= 'none';
+    }
 
     function ATTACK (you, opp) {
-        if($('#yodaC').css('display')==='block'){
-            if($('#vaderD').css('display')==='block'){
-            
                 var attack = opp.health -= you.atk;
                 var hit = you.health -= opp.counter;
-                if(you.name=="Baby Yoda"){
-                    if(opp.name=="Jar Jar Binks"){
-                        $('#yodaC > div > p').text(hit);
+                if(you.name==="Baby Yoda"){
+                    $('#yodaC > div > p').text(hit);
+                    if(opp.name==="Jar Jar Binks"){
                         $('#jarD > div > p').text(attack);
                     } else if(opp.name=="Darth Vader"){
-                        $('#yodaC > div > p').text(hit);
                         $('#vaderD > div > p').text(attack);
+                        } else{
+                            $('#lukeD > div > p').text(attack);
+                            }
                 }
-                //finish the above
-            
-            $('#myDmg').text(char0.name + " attacks " + char3.name + " for " + char0.atk + " damage.")
-            $('#oppDmg').text(char3.name + " counter attacks " + char0.name + " for " + char3.counter + " damage.")
-                char0.atk= char0.atk + char0.baseAtk;
-                if(hit <= 0){
-                    yodaC.style.display= "none";
-                    mandoC.style.display= "block";
-    
+
+                if(you.name==="Jar Jar Binks"){
+                    $('#jarC > div > p').text(hit);
+                    if(opp.name==="Baby Yoda"){
+                        $('#yodaD > div > p').text(attack);
+                    } else if(opp.name=="Darth Vader"){
+                        $('#vaderD > div > p').text(attack);
+                        } else{
+                            $('#lukeD > div > p').text(attack);
+                            }
                 }
+
+                if(you.name==="Darth Vader"){
+                    $('#vaderC > div > p').text(hit);
+                    if(opp.name==="Baby Yoda"){
+                        $('#yodaD > div > p').text(attack);
+                    } else if(opp.name=="Jar Jar Binks"){
+                        $('#jarD > div > p').text(attack);
+                        } else{
+                            $('#lukeD > div > p').text(attack);
+                            }
+                }
+
+                if(you.name==="Luke Skywalker"){
+                    $('#lukeC > div > p').text(hit);
+                    if(opp.name==="Baby Yoda"){
+                        $('#yodaD > div > p').text(attack);
+                    } else if(opp.name=="Darth Vader"){
+                        $('#vaderD > div > p').text(attack);
+                        } else{
+                            $('#yodaD > div > p').text(attack);
+                            }
+                }
+
+    $('#myDmg').text(you.name + " attacks " + opp.name + " for " + you.atk + " damage.")
+    $('#oppDmg').text(opp.name + " counter attacks " + you.name + " for " + opp.counter + " damage.")
+        you.atk += you.baseAtk;
+        if(hit <= 0){
+            gameOn=false;
+            alert ("you lose");
+            //reset game
         }
-        }
+        if(attack<=0){
+            if($('#yodaE').css('display')==='none'&&$('#vaderE').css('display')==='none'&&$('#jarE').css('display')==='none'&&$('#lukeE').css('display')==='none'){
+                alert("you win!")
+                clearOpp();
+                //reset game
+            } else{
+            gameOn=false;
+            clearOpp();
+            alert("select next")
+            }
+        }  
     }
+    
 $(".card").on("click", function() {
     
     if(gameOn){
@@ -170,43 +216,41 @@ $("#attackBtn").on("click", function(){
     if(gameOn==false){
         return false
     } else {
-    if($('#yodaC').css('display')==='block'){
-        if($('#jarD').css('display')==='block'){
-        
-            var attack = char2.health = char2.health - char0.atk;
-            var hit = char0.health = char0.health - char2.counter;
-            
-        $('#yodaC > div > p').text(hit);
-        $('#jarD > div > p').text(attack);
-        $('#myDmg').text(char0.name + " attacks " + char2.name + " for " + char0.atk + " damage.")
-        $('#oppDmg').text(char2.name + " counter attacks " + char0.name + " for " + char2.counter + " damage.")
-            char0.atk= char0.atk + char0.baseAtk;
-            if(hit <= 0){
-                yodaC.style.display= "none";
-                mandoC.style.display= "block";
-
+        if($('#yodaC').css('display')==='block'){
+            if($('#jarD').css('display')==='block'){
+                ATTACK(char0, char2);
+            } else if($('#vaderD').css('display')==='block'){
+                ATTACK(char0, char3);
+            } else {  
+                ATTACK(char0, char4);
             }
-    }
-    } else if($('#yodaC').css('display')==='block'){
-        if($('#vaderD').css('display')==='block'){
-        
-            var attack = char3.health = char3.health - char0.atk;
-            var hit = char0.health = char0.health - char3.counter;
-            
-        $('#yodaC > div > p').text(hit);
-        $('#vaderD > div > p').text(attack);
-        $('#myDmg').text(char0.name + " attacks " + char3.name + " for " + char0.atk + " damage.")
-        $('#oppDmg').text(char3.name + " counter attacks " + char0.name + " for " + char3.counter + " damage.")
-            char0.atk= char0.atk + char0.baseAtk;
-            if(hit <= 0){
-                yodaC.style.display= "none";
-                mandoC.style.display= "block";
-
-            }
-    }
-    }
-    }
-})
+        } else if($('#jarC').css('display')==='block'){
+                if($('#yodaD').css('display')==='block'){
+                    ATTACK(char2, char0);
+                } else if($('#vaderD').css('display')==='block'){
+                    ATTACK(char2, char3);
+                } else {  
+                    ATTACK(char2, char4);
+                }
+            } else if($('#vaderC').css('display')==='block'){
+                    if($('#jarD').css('display')==='block'){
+                        ATTACK(char3, char2);
+                    } else if($('#yodaD').css('display')==='block'){
+                        ATTACK(char3, char0);
+                    } else {  
+                        ATTACK(char3, char4);
+                    }
+                } else if($('#lukeC').css('display')==='block'){
+                        if($('#jarD').css('display')==='block'){
+                            ATTACK(char4, char2);
+                        } else if($('#vaderD').css('display')==='block'){
+                            ATTACK(char4, char3);
+                        } else {  
+                            ATTACK(char4, char0);
+                        }
+                    }
+        }
+    })
 
 
 })
