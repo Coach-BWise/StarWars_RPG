@@ -3,30 +3,30 @@ $(document).ready(function() {
     var char0 = {
         name:"Baby Yoda", 
         health: 60,
-        baseAtk: 8,
-        atk: 8,
-        counter: 5  
+        baseAtk:10,
+        atk: 10,
+        counter: 3  
     };
 
     var char1 = {
         name:"Mando", 
-        health: 100,
-        baseAtk: 8,
-        atk: char0.atk,
+        health: 90,
+        baseAtk: 12,
+        atk: 0,
         counter: 6  
     };
 
     var char2 = {
         name:"Jar Jar Binks", 
-        health: 125,
-        baseAtk: 10,
-        atk: 10,
-        counter: 5   
+        health: 130,
+        baseAtk: 9,
+        atk: 9,
+        counter: 7  
     };
 
     var char3 = {
         name:"Darth Vader", 
-        health: 180,
+        health: 175,
         baseAtk: 4, 
         atk: 4,
         counter: 25 
@@ -37,7 +37,7 @@ $(document).ready(function() {
         health: 150,
         baseAtk: 6,
         atk: 6,
-        counter: 20  
+        counter: 18  
     };
 
     var gameOn = false;
@@ -131,9 +131,6 @@ $(document).ready(function() {
         $('#myDmg').text(you.name + " attacks " + opp.name + " for " + you.atk + " damage.")
         $('#oppDmg').text(opp.name + " counter attacks " + you.name + " for " + opp.counter + " damage.")
 
-        //increases attack of users char
-        you.atk += you.baseAtk;
-
         //special yoda condition
         if(you.name === "Baby Yoda"){
             if(hit <= 0){
@@ -145,30 +142,28 @@ $(document).ready(function() {
             if(attack<=0){
                 gameOn=false;
                 clearOpp();
-                $('#myDmg').text(you.name + " attacks " + opp.name + " for " + you.atk + " damage.")
                 $('#oppDmg').text("You have defeated " + opp.name + ". Select a new challenger" )
             }      
         } else if(hit <= 0){
             gameOn=false;
-            $('#myDmg').text(you.name + " attacks " + opp.name + " for " + you.atk + " damage.")
-            $('#oppDmg').text("You have been defeated by" + opp.name + ". Game Over!" )
+            $('#oppDmg').text("You have been defeated by " + opp.name + ". Game Over!" )
         } else if(attack<=0){
-            if($('#yodaE').css('display') === 'none' && $('#vaderE').css('display') === 'none' && $('#jarE').css('display') === 'none' && $('#lukeE').css('display') === 'none'){
-                $('#myDmg').text(you.name + " attacks " + opp.name + " for " + you.atk + " damage.")
-                $('#oppDmg').text("You have defeated all Opponents! You Win!" )
-                gameOn=false;
-                clearOpp();
-            } else if(opp.name === 'Baby Yoda'){
+            if(opp.name === 'Baby Yoda'){
                 yodaD.style.display= "none";
                 mandoD.style.display= "block";
                 alert('Mando arrives and saves Baby Yoda')
+            } else if($('#yodaE').css('display') === 'none' && $('#vaderE').css('display') === 'none' && $('#jarE').css('display') === 'none' && $('#lukeE').css('display') === 'none'){
+                $('#oppDmg').text("You have defeated all Opponents! You Win!" )
+                gameOn=false;
+                clearOpp();
             } else{
                 gameOn=false;
                 clearOpp();
-                $('#myDmg').text(you.name + " attacks " + opp.name + " for " + you.atk + " damage.")
                 $('#oppDmg').text("You have defeated " + opp.name + ". Select a new challenger" )
             }
-        }       
+        }
+        //increases attack of users char
+        you.atk += you.baseAtk;       
     }
     
 $(".card").on("click", function() {
@@ -250,7 +245,7 @@ $(".card").on("click", function() {
 //when the attack button is clicked this calls the ATTACK function and passes in the characters
 $("#attackBtn").on("click", function(){
     if(gameOn==false){
-        $('#myDmg').text("Attacked No One, You Have")
+        $('#myDmg').text("Attacked No One, You Have.")
         $('#oppDmg').text("")
         return false
     } else if($('#yodaC').css('display')==='block'){
