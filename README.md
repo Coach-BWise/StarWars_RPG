@@ -11,7 +11,9 @@ The App allows the user to choose a character. They then must defeat the remaini
 
 ## Created with
 
-- [Node](https://nodejs.org/en/)
+- HTML
+- CSS
+- Javascript
 
 ## Author
 
